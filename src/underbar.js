@@ -78,7 +78,8 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
   	var result = [];
-  	_.each(collection, function(item, index) {
+    var array = collection.slice(0);
+  	_.each(array, function(item, index) {
       if(test(item)){
         result.push(item);
       }
@@ -89,7 +90,8 @@
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     var result = [];
-    _.each(collection, function(item, index) {
+    var array = collection.slice(0);
+    _.each(array, function(item, index) {
       if(!test(item)){
       	result.push(item);
       }
@@ -98,12 +100,30 @@
   };
 
   // Produce a duplicate-free version of the array.
-  _.uniq = function(array, isSorted, iterator) {
+  _.uniq = function(array, isSorted, iterator) {  
+    var result =[];
+    var newArray = [...new Set(array)];
+     _.each(newArray, function(item, index) {
+      if (isSorted) {
+      	if (iterator(item)) {
+          result.push(item);
+        }
+      }else {
+        result = [...new Set(array)];
+      }
+    });
+    return result;
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+    var result = [];
+    var array = collection.slice(0);
+    _.each(array, function(item, index) {
+      result.push(iterator(item));
+    });
+    return result;
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
@@ -148,6 +168,18 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    var result = [];
+    var array = collection.slice(0);
+    if(accumulator !== undefined){
+      var acc = accumulator;
+    } else{
+      var acc = array.shift();
+    }
+    //var acc =  accumulator !== undefined ? accumulator : collection[0];
+    _.each(array, function(item, index) {
+      acc = iterator(acc,item);
+    });
+    return acc;
   };
 
   // Determine if the array or object contains a given value (using `===`).
