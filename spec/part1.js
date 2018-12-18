@@ -452,7 +452,7 @@
       it('should be a function', function() {
         expect(_.reduce).to.be.an.instanceOf(Function);
       });
-
+ 
       it('should return a value', function() {
         var result = _.reduce([3,2,1], function(memo, item) {return item;});
         expect(result).to.be.defined;
