@@ -168,15 +168,18 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    var result = [];
-    var array = collection.slice(0);
+    if (Array.isArray(collection)){
+      var newCollection = collection.slice(0);
+    } else {
+      var newCollection = collection;
+    }
     if(accumulator !== undefined){
       var acc = accumulator;
     } else{
-      var acc = array.shift();
+      var acc = newCollection.shift();
     }
-    //var acc =  accumulator !== undefined ? accumulator : collection[0];
-    _.each(array, function(item, index) {
+
+    _.each(newCollection, function(item, index) {
       acc = iterator(acc,item);
     });
     return acc;
@@ -184,8 +187,6 @@
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
-    // TIP: Many iteration problems can be most easily expressed in
-    // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item) {
       if (wasFound) {
         return true;
@@ -194,12 +195,18 @@
     }, false);
   };
 
-
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+    var iterator = iterator || _.identity ; 
+    return _.reduce(collection, function(accumulator, current) {
+      if(!iterator(current)) {
+        return false;
+      } else {
+        return accumulator;
+      }
+    }, true);
   };
-
+  
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
