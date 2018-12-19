@@ -91,7 +91,7 @@
   _.reject = function(collection, test) {
     var result = [];
     var array = collection.slice(0);
-    
+
     _.each(array, function(item, index) {
       if(!test(item)){
       	result.push(item);
@@ -330,6 +330,20 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var newArray = array.slice(0);
+    var result = [];
+    //Use Math.random to choose an index to push all 
+    function randomIndex (min, max) {
+      min = 0;
+      max = newArray.length - 1;
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    while (0 < newArray.length){
+      var ind = randomIndex();
+      result.splice(0,0,newArray[ind]);
+      newArray.splice(ind,1);
+    }
+    return result;
   };
 
 
