@@ -91,6 +91,7 @@
   _.reject = function(collection, test) {
     var result = [];
     var array = collection.slice(0);
+    
     _.each(array, function(item, index) {
       if(!test(item)){
       	result.push(item);
@@ -102,14 +103,14 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {  
     var result =[];
-    var newArray = [...new Set(array)];
-     _.each(newArray, function(item, index) {
-      if (isSorted) {
-      	if (iterator(item)) {
-          result.push(item);
-        }
-      }else {
-        result = [...new Set(array)];
+    var iteratorResults = [];
+
+     _.each(array, function(item, index) {
+      if (isSorted && !iteratorResults.includes(iterator(item))) {
+        iteratorResults.push(iterator(item));
+        result.push(item); 
+      } else if (!isSorted && !result.includes(item)) {
+        result.push(item);
       }
     });
     return result;
