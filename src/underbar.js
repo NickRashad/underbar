@@ -318,7 +318,8 @@
       } 
       return result;
     };
-  };//Referenced Codeburst.io/Understanding JavaScript Memoization In 3 Minutes
+  //Referenced Codeburst.io/Understanding JavaScript Memoization In 3 Minutes
+  //Alternate method
     /*var cache = {};
 
     return function() {
@@ -331,6 +332,8 @@
         return val;
       }
     };*/
+  };
+
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
@@ -338,6 +341,8 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+     var args = Array.prototype.slice.call(arguments).slice(2);
+    return setTimeout(func, wait, ...args);
   };
 
 
