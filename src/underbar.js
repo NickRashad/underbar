@@ -307,8 +307,30 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-  };
+    var cache = {};
+    var result;
 
+    return function() {
+      var key = JSON.stringify(arguments);
+      if (!cache[key]) {
+        result = func.apply(this, arguments);
+        cache[key] = result;
+      } 
+      return result;
+    };
+  };//Referenced Codeburst.io/Understanding JavaScript Memoization In 3 Minutes
+    /*var cache = {};
+
+    return function() {
+      var key = JSON.stringify(arguments);
+      if (cache[key]) {
+        return cache[key];
+      } else {
+        var val = func.apply(null, arguments);
+        cache[key] = val;
+        return val;
+      }
+    };*/
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
